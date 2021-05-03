@@ -118,7 +118,7 @@ public class BootStrapData implements CommandLineRunner {
         commodityRepo.save(commodity3);
         commodityRepo.save(commodity4);
         commodityRepo.save(commodity5);
-        /*
+
         //initialize Good Receipts
         GoodReceipt goodReceipt1 = new GoodReceipt();
         goodReceipt1.setSuffix("WZ");
@@ -137,20 +137,28 @@ public class BootStrapData implements CommandLineRunner {
             item.setAmount(40);
             item.setPosition(counter++);
             goodReceiptItemRepo.save(item);
+        }
+        List<GoodReceiptItem> itemList = goodReceiptItemRepo.findAll();
+        for(GoodReceiptItem item: itemList){
             goodReceipt1.addItem(item);
         }
         goodReceiptRepo.save(goodReceipt1);
-        */
+
 
         //wydruki
         List<Address> addresses = addressRepo.findAll();
         List<Company> companies = companyRepo.findAll();
         List<LegalPerson> legalPersonList = legalPersonRepo.findAll();
         List<Commodity> commodities = commodityRepo.findAll();
+        List<GoodReceipt> goodReceiptList = goodReceiptRepo.findAll();
+
         System.out.println(addresses);
         System.out.println(companies);
         System.out.println(legalPersonList);
         System.out.println(commodities);
+        System.out.println(itemList);
+        System.out.println(goodReceiptList);
+        System.out.println(goodReceiptList.get(0).getNumberOfItems());
     }
 
 }

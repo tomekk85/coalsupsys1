@@ -8,18 +8,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
-@Data
+
 public abstract class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    Long Id;
+
     @OneToOne
     Company contractor;
     int documentNumber;
     String suffix;
     LocalDate dateOfIssue;
     String issuer;//osoba wystawiająca
+
     @OneToMany
     List<DocumentItem> items = new ArrayList<>();
     public void addItem(DocumentItem item){
