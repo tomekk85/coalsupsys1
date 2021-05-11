@@ -8,6 +8,7 @@ import pl.coalgroup.coalsupsys.model.Customer;
 import pl.coalgroup.coalsupsys.model.Supplier;
 
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * klasa do tworzenia fikcyjnych danych
@@ -15,7 +16,7 @@ import java.util.Locale;
 public class FakeData {
     static Faker faker = new Faker(new Locale("pl"));
 
-    public static Customer createCustomerAsCompany(){
+    public static Customer createCustomerAsCompany() {
         Customer customer = new Customer();
         String companyName = faker.company().name();
         customer.setName(companyName);
@@ -31,18 +32,22 @@ public class FakeData {
         customer.setBdo("0000" + faker.number().numberBetween(1, 9) + faker.number().digits(9));
         customer.setRegon(faker.number().numberBetween(1, 9) + faker.number().digits(13));
         //e-mail
-        FakeValuesService fakeValuesService = new FakeValuesService(
-                new Locale("pl"), new RandomService());
-        customer.setEMail(fakeValuesService.bothify("????##@gmail.com"));
+
+        String pref = companyName.replaceAll("\\p{Punct}", "");//-znaki interpukcyjne
+        pref = pref.contains(" ") ? pref.split(" ")[0] : pref;//-spacje
+        customer.setEMail(withoutPolishSigns(pref.toLowerCase()) + "@gmail.com");
 
         customer.setPhoneNo(faker.phoneNumber().phoneNumber());
         return customer;
     }
 
-    public static Customer createCustomerAsLegalPerson(){
+    public static Customer createCustomerAsLegalPerson() {
         Customer customer = new Customer();
-        customer.setFirstName(faker.name().firstName());
-        customer.setLastName(faker.name().lastName());
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
 
         //adres
         customer.setCity(faker.address().city());
@@ -53,15 +58,13 @@ public class FakeData {
 
         customer.setPESEL(faker.number().digits(11));
         //e-mail
-        FakeValuesService fakeValuesService = new FakeValuesService(
-                new Locale("pl"), new RandomService());
-        customer.setEMail(fakeValuesService.bothify("????##@gmail.com"));
+        customer.setEMail(withoutPolishSigns(firstName.toLowerCase()) + "_" + withoutPolishSigns(lastName.toLowerCase()) + "@gmail.com");
 
         customer.setPhoneNo(faker.phoneNumber().phoneNumber());
         return customer;
     }
 
-    public static Supplier createSupplier(){
+    public static Supplier createSupplier() {
         Supplier supplier = new Supplier();
         String companyName = faker.company().name();
         supplier.setName(companyName);
@@ -77,21 +80,76 @@ public class FakeData {
         supplier.setBdo("0000" + faker.number().numberBetween(1, 9) + faker.number().digits(9));
         supplier.setRegon(faker.number().numberBetween(1, 9) + faker.number().digits(13));
         //e-mail
-        FakeValuesService fakeValuesService = new FakeValuesService(
-                new Locale("pl"), new RandomService());
-        supplier.setEMail(fakeValuesService.bothify("????##@gmail.com"));
+        String pref = companyName.replaceAll("\\p{Punct}", "");//-znaki interpukcyjne
+        pref = pref.contains(" ") ? pref.split(" ")[0] : pref;//-spacje
+        supplier.setEMail(withoutPolishSigns(pref.toLowerCase()) + "@gmail.com");
+
 
         supplier.setPhoneNo(faker.phoneNumber().phoneNumber());
 
         return supplier;
     }
 
-    public static Commodity createCommodity(){
+    public static Commodity createCommodity(int number) {
         Commodity commodity = new Commodity();
-        commodity.setName("Węgiel kamienny - rodzaj " + faker.number().numberBetween(0, 10));
-        commodity.setCode("CN" + faker.number().numberBetween(2700, 2705));
+        commodity.setName("Węgiel kamienny - rodzaj " + number);
+        commodity.setCode("CN" + faker.number().numberBetween(2700, 2800));
+
+        //jednostka
+        int pick = new Random().nextInt(Commodity.Unit.values().length);
         commodity.setUnit(Commodity.Unit.t);
-        commodity.setPrice((double) faker.number().numberBetween(70000, 120000)/ 100.0);
+        //commodity.setUnit(Commodity.Unit.values()[pick]);//losowo
+
+        commodity.setPrice((double) faker.number().numberBetween(70000, 120000) / 100.0);
         return commodity;
+    }
+
+    private static String withoutPolishSigns(String word) {
+        StringBuilder sb = new StringBuilder();
+        int L = word.length();
+        for (int I = 0; I < L; I++) {
+            switch (word.charAt(I)) {
+                case 'ą':
+                    sb.append('a');
+                    break;
+                case 'ć':
+                    sb.append('c');
+                    break;
+                case 'ę':
+                    sb.append('e');
+                    break;
+                case 'ł':
+                    sb.append('l');
+                    break;
+                case 'ń':
+                    sb.append('n');
+                    break;
+                case 'ó':
+                    sb.append('o');
+                    break;
+                case 'ś':
+                    sb.append('s');
+                    break;
+                case 'ź':
+                    sb.append('z');
+                    break;
+                case 'ż':
+                    sb.append('z');
+                    break;
+//                case 'Ą': sb.append('A'); break;
+//                case 'Ć': sb.append('C'); break;
+//                case 'Ę': sb.append('E'); break;
+//                case 'Ł': sb.append('L'); break;
+//                case 'Ń': sb.append('N'); break;
+//                case 'Ó': sb.append('O'); break;
+//                case 'Ś': sb.append('S'); break;
+//                case 'Ź': sb.append('Z'); break;
+//                case 'Ż': sb.append('Z'); break;
+                default:
+                    sb.append(word.charAt(I));
+                    break;
+            }
+        }
+        return sb.toString();
     }
 }

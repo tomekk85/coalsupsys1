@@ -50,8 +50,8 @@ public class BootStrapData implements CommandLineRunner {
         }
 
         //initialize Commodities
-        for (int i = 0; i < 20; i++) {
-            Commodity commodity = FakeData.createCommodity();
+        for (int i = 0; i < 7; i++) {
+            Commodity commodity = FakeData.createCommodity(i + 1);
             commodityRepo.save(commodity);
         }
 
