@@ -41,7 +41,7 @@ public class SupplierController {
         supplierService.update(supplier, id);
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public Supplier deleteSupplier(@PathVariable long id){
         return supplierService.delete(id);
     }

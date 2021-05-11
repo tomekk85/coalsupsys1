@@ -33,24 +33,24 @@ public class BootStrapData implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //initialize Customers - companies
-        for(int i =0; i < 30; i++){
+        for (int i = 0; i < 30; i++) {
             Customer customer = FakeData.createCustomerAsCompany();
             clientRepo.save(customer);
         }
         //initialize Customers - legal persons
-        for(int i =0; i < 30; i++){
+        for (int i = 0; i < 30; i++) {
             Customer customer = FakeData.createCustomerAsLegalPerson();
             clientRepo.save(customer);
         }
 
         //initialize Suppliers - companies
-        for(int i =0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             Supplier supplier = FakeData.createSupplier();
             supplierRepo.save(supplier);
         }
 
         //initialize Commodities
-        for(int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             Commodity commodity = FakeData.createCommodity();
             commodityRepo.save(commodity);
         }
@@ -67,7 +67,7 @@ public class BootStrapData implements CommandLineRunner {
         Commodity[] commArray = commodityRepo.findAll().toArray(new Commodity[0]);
 
         int counter = 1;
-        for(Commodity comm: commArray){
+        for (Commodity comm : commArray) {
             GoodReceiptItem item = new GoodReceiptItem();
             item.setCommodity(commArray[0]);
             item.setAmount(40);
@@ -76,7 +76,7 @@ public class BootStrapData implements CommandLineRunner {
         }
 
         List<GoodReceiptItem> itemList = goodReceiptItemRepo.findAll();
-        for(GoodReceiptItem item: itemList){
+        for (GoodReceiptItem item : itemList) {
             goodReceipt1.addItem(item);
         }
         goodReceiptRepo.save(goodReceipt1);
