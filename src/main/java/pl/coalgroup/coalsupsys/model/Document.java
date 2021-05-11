@@ -1,8 +1,5 @@
 package pl.coalgroup.coalsupsys.model;
 
-import lombok.Data;
-import org.springframework.web.bind.annotation.Mapping;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ public abstract class Document {
     Long Id;
 
     @OneToOne
-    Company contractor;
+    Customer contractor;
     int documentNumber;
     String suffix;
     LocalDate dateOfIssue;

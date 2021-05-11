@@ -15,7 +15,7 @@ public class GoodReceipt {
     Long Id;
 
     @OneToOne
-    Company contractor;
+    Customer contractor;
     int documentNumber;
     String suffix;
     LocalDate dateOfIssue;
