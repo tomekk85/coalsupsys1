@@ -1,6 +1,5 @@
 package pl.coalgroup.coalsupsys.bootstrap;
 
-import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.coalgroup.coalsupsys.model.*;
@@ -8,7 +7,10 @@ import pl.coalgroup.coalsupsys.repositories.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
+
+/**
+ * tu inicjalizujemy dane
+ */
 
 @Component
 public class BootStrapData implements CommandLineRunner {
@@ -29,9 +31,6 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        Faker faker = new Faker(new Locale("pl"));
-
 
         //initialize Customers - companies
         for(int i =0; i < 30; i++){
@@ -55,9 +54,6 @@ public class BootStrapData implements CommandLineRunner {
             Commodity commodity = FakeData.createCommodity();
             commodityRepo.save(commodity);
         }
-
-
-
 
         //initialize Good Receipts
         GoodReceipt goodReceipt1 = new GoodReceipt();

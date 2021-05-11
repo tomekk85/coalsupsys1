@@ -9,6 +9,9 @@ import pl.coalgroup.coalsupsys.model.Supplier;
 
 import java.util.Locale;
 
+/**
+ * klasa do tworzenia fikcyjnych danych
+ */
 public class FakeData {
     static Faker faker = new Faker(new Locale("pl"));
 
