@@ -11,7 +11,7 @@ public class Customer extends CompanyAbs {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", firstName='" + firstName + '\'' +

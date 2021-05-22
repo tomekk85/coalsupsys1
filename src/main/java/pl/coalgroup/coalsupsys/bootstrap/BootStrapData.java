@@ -18,13 +18,15 @@ public class BootStrapData implements CommandLineRunner {
     private SupplierRepository supplierRepo;
     private CommodityRepository commodityRepo;
     private GoodsReceiptRepository goodsReceiptRepo;
+    private DeliveryNoteRepository deliveryNoteRepo;
 
     public BootStrapData(CustomerRepository clientRepo, SupplierRepository supplierRepo, CommodityRepository commodityRepo,
-                         GoodsReceiptRepository goodsReceiptRepo) {
+                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo) {
         this.customerRepo = clientRepo;
         this.supplierRepo = supplierRepo;
         this.commodityRepo = commodityRepo;
         this.goodsReceiptRepo = goodsReceiptRepo;
+        this.deliveryNoteRepo = deliveryNoteRepo;
     }
 
     @Override
@@ -59,18 +61,24 @@ public class BootStrapData implements CommandLineRunner {
             goodsReceiptRepo.save(goodsReceipt);
         }
 
+        //initialize Delivery Notes
+        for (int i = 0; i < 3; i++) {
+            DeliveryNote deliveryNote = FakeData.createDeliveryNote(customerRepo.findAll(), commodityRepo.findAll());
+            deliveryNoteRepo.save(deliveryNote);
+        }
 
         //wydruki
         List<Customer> customers = customerRepo.findAll();
         List<Supplier> suppliers = supplierRepo.findAll();
         List<Commodity> commodities = commodityRepo.findAll();
         List<GoodsReceipt> goodsReceiptList = goodsReceiptRepo.findAll();
-
+        List<DeliveryNote> deliveryNoteList = deliveryNoteRepo.findAll();
 
         System.out.println(customers);
         System.out.println(suppliers);
         System.out.println(commodities);
         System.out.println(goodsReceiptList);
+        System.out.println(deliveryNoteList);
     }
 
 }

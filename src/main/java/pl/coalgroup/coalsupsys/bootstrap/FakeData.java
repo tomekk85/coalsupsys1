@@ -1,12 +1,7 @@
 package pl.coalgroup.coalsupsys.bootstrap;
 
 import com.github.javafaker.Faker;
-import com.github.javafaker.service.FakeValuesService;
-import com.github.javafaker.service.RandomService;
-import pl.coalgroup.coalsupsys.model.Commodity;
-import pl.coalgroup.coalsupsys.model.Customer;
-import pl.coalgroup.coalsupsys.model.GoodsReceipt;
-import pl.coalgroup.coalsupsys.model.Supplier;
+import pl.coalgroup.coalsupsys.model.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -115,16 +110,36 @@ public class FakeData {
 
         GoodsReceipt goodsReceipt = new GoodsReceipt();
         goodsReceipt.setDateOfIssue(LocalDate.now());
-        goodsReceipt.setContractor(suppliers.get(faker.number().numberBetween(startSupp, endSupp)));
+        goodsReceipt.setIssuer("Marek Kowalski");
+        goodsReceipt.setSupplier(suppliers.get(faker.number().numberBetween(startSupp, endSupp)));
 
+        //set items
         for (int i = 0; i < faker.number().numberBetween(1, 20); i++){
             goodsReceipt.addItem(commodities.get(faker.number().numberBetween(startComm, endComm)),
                     (double)faker.number().numberBetween(1,50));
         }
 
-        goodsReceipt.setIssuer("Marek Kowalski");
-
         return goodsReceipt;
+    }
+
+    public static DeliveryNote createDeliveryNote(List<Customer> customers, List<Commodity> commodities){
+        int startCust = 0;
+        int endCust = customers.size();
+        int startComm = 0;
+        int endComm = commodities.size();
+
+        DeliveryNote deliveryNote = new DeliveryNote();
+        deliveryNote.setDateOfIssue(LocalDate.now());
+        deliveryNote.setIssuer("Jadwiga Nowak");
+        deliveryNote.setCustomer(customers.get(faker.number().numberBetween(startCust, endCust)));
+
+        //set items
+        for (int i = 0; i < faker.number().numberBetween(1, 20); i++){
+            deliveryNote.addItem(commodities.get(faker.number().numberBetween(startComm, endComm)),
+                    (double)faker.number().numberBetween(1,35));
+        }
+
+        return deliveryNote;
     }
 
     //funkcja pomocnicza

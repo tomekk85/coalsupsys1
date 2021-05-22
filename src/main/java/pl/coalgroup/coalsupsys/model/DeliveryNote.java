@@ -7,17 +7,16 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Data
-public class GoodsReceipt extends Document{
-
+public class DeliveryNote extends Document{
     @OneToOne
-    Supplier supplier;
+    Customer customer;
 
     @Override
     public String toString() {
-        return "GoodsReceipt{" +
+        return "DeliveryNote{" +
                 "Id=" + Id +
                 ", dateOfIssue=" + dateOfIssue +
-                ", supplier=" + supplier +
+                ", customer=" + customer +
                 ", issuer='" + issuer + '\'' +
                 ", items=" + items +
                 '}';
