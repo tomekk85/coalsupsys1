@@ -1,0 +1,68 @@
+@startuml
+class pl.coalgroup.coalsupsys.model.Warehouse {
+~ Integer currentGRNumber
+~ Map<Commodity,Double> stock
+~ Map<Integer,Document> goodsReceiptRegister
++ void addToStock(Document)
++ void releaseFromStock(Document)
+}
+abstract class pl.coalgroup.coalsupsys.model.Document {
+~ Long Id
+- int currentPositionNumber
+~ LocalDate dateOfIssue
+~ String issuer
+~ Map<Integer,Item> items
++ void addItem(Commodity,Double)
++ int getNumberOfItems()
+}
+class pl.coalgroup.coalsupsys.model.Document.Item {
+- Long Id
+~ Commodity commodity
+- Double amount
+}
+class pl.coalgroup.coalsupsys.model.Supplier {
++ String toString()
+}
+class pl.coalgroup.coalsupsys.model.DeliveryNote {
+~ Customer customer
++ String toString()
+}
+class pl.coalgroup.coalsupsys.model.GoodsReceipt {
+~ Supplier supplier
++ String toString()
+}
+abstract class pl.coalgroup.coalsupsys.model.CompanyAbs {
+~ Long id
+~ String name
+~ String firstName
+~ String lastName
+~ String PESEL
+~ String NIP
+~ String regon
+~ String bdo
+~ String city
+~ String zipcode
+~ String street
+~ int buildingNo
+~ int localNo
+~ String phoneNo
+~ String eMail
+}
+class pl.coalgroup.coalsupsys.model.Customer {
++ String toString()
+}
+class pl.coalgroup.coalsupsys.model.Commodity {
+- long id
+- String name
+- String code
+- double price
+- Unit unit
+}
+
+
+pl.coalgroup.coalsupsys.model.Document +.. pl.coalgroup.coalsupsys.model.Document.Item
+pl.coalgroup.coalsupsys.model.CompanyAbs <|-- pl.coalgroup.coalsupsys.model.Supplier
+pl.coalgroup.coalsupsys.model.Document <|-- pl.coalgroup.coalsupsys.model.DeliveryNote
+pl.coalgroup.coalsupsys.model.Document <|-- pl.coalgroup.coalsupsys.model.GoodsReceipt
+pl.coalgroup.coalsupsys.model.CompanyAbs <|-- pl.coalgroup.coalsupsys.model.Customer
+@enduml
