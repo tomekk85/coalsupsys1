@@ -1,29 +1,57 @@
 package pl.coalgroup.coalsupsys.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-
+@MappedSuperclass
+@Table(name = "document")
+@Data
 public abstract class Document {
+    Document(){
+        currentPositionNumber = 1;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
 
-    @OneToOne
-    Customer contractor;
-    int documentNumber;
-    String suffix;
+
+    private int currentPositionNumber;
     LocalDate dateOfIssue;
     String issuer;//osoba wystawiająca
 
-    @OneToMany
-    List<DocumentItem> items = new ArrayList<>();
-    public void addItem(DocumentItem item){
-        items.add(item);
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    Map<Integer,Item> items = new HashMap<>();
+
+    public void addItem(Commodity commodity, Double amount){
+        Item item = new Item();
+        item.setCommodity(commodity);
+        item.setAmount(amount);
+
+        items.put(currentPositionNumber++, item);
     }
-    public void removeItem(DocumentItem item){
-        items.remove(item);
+    public int getNumberOfItems(){
+        return items.size();
     }
+
+
+    @Entity
+    @Table(name = "item")
+    @Data
+    public static class Item {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long Id;
+        @OneToOne
+        Commodity commodity;
+        private Double amount;
+    }
+
+
 }

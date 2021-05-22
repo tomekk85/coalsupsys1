@@ -5,8 +5,11 @@ import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
 import pl.coalgroup.coalsupsys.model.Commodity;
 import pl.coalgroup.coalsupsys.model.Customer;
+import pl.coalgroup.coalsupsys.model.GoodsReceipt;
 import pl.coalgroup.coalsupsys.model.Supplier;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -104,6 +107,27 @@ public class FakeData {
         return commodity;
     }
 
+    public static GoodsReceipt createGoodsReceipt(List<Supplier> suppliers, List<Commodity> commodities){
+        int startSupp = 0;
+        int endSupp = suppliers.size();
+        int startComm = 0;
+        int endComm = commodities.size();
+
+        GoodsReceipt goodsReceipt = new GoodsReceipt();
+        goodsReceipt.setDateOfIssue(LocalDate.now());
+        goodsReceipt.setContractor(suppliers.get(faker.number().numberBetween(startSupp, endSupp)));
+
+        for (int i = 0; i < faker.number().numberBetween(1, 20); i++){
+            goodsReceipt.addItem(commodities.get(faker.number().numberBetween(startComm, endComm)),
+                    (double)faker.number().numberBetween(1,50));
+        }
+
+        goodsReceipt.setIssuer("Marek Kowalski");
+
+        return goodsReceipt;
+    }
+
+    //funkcja pomocnicza
     private static String withoutPolishSigns(String word) {
         StringBuilder sb = new StringBuilder();
         int L = word.length();

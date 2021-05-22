@@ -14,19 +14,17 @@ import java.util.List;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
-    private CustomerRepository clientRepo;
+    private CustomerRepository customerRepo;
     private SupplierRepository supplierRepo;
     private CommodityRepository commodityRepo;
-    private GoodReceiptRepository goodReceiptRepo;
-    private GoodReceiptItemRepository goodReceiptItemRepo;
+    private GoodsReceiptRepository goodsReceiptRepo;
 
     public BootStrapData(CustomerRepository clientRepo, SupplierRepository supplierRepo, CommodityRepository commodityRepo,
-                         GoodReceiptRepository goodReceiptRepo, GoodReceiptItemRepository goodReceiptItemRepo) {
-        this.clientRepo = clientRepo;
+                         GoodsReceiptRepository goodsReceiptRepo) {
+        this.customerRepo = clientRepo;
         this.supplierRepo = supplierRepo;
         this.commodityRepo = commodityRepo;
-        this.goodReceiptRepo = goodReceiptRepo;
-        this.goodReceiptItemRepo = goodReceiptItemRepo;
+        this.goodsReceiptRepo = goodsReceiptRepo;
     }
 
     @Override
@@ -35,12 +33,12 @@ public class BootStrapData implements CommandLineRunner {
         //initialize Customers - companies
         for (int i = 0; i < 30; i++) {
             Customer customer = FakeData.createCustomerAsCompany();
-            clientRepo.save(customer);
+            customerRepo.save(customer);
         }
         //initialize Customers - legal persons
         for (int i = 0; i < 30; i++) {
             Customer customer = FakeData.createCustomerAsLegalPerson();
-            clientRepo.save(customer);
+            customerRepo.save(customer);
         }
 
         //initialize Suppliers - companies
@@ -56,45 +54,23 @@ public class BootStrapData implements CommandLineRunner {
         }
 
         //initialize Good Receipts
-        GoodReceipt goodReceipt1 = new GoodReceipt();
-        goodReceipt1.setSuffix("WZ");
-        goodReceipt1.setDocumentNumber(1);
-        goodReceipt1.setDateOfIssue(LocalDate.now());
-        goodReceipt1.setContractor(clientRepo.findById(1L).get());
-        goodReceipt1.setIssuer("Marek Kowalski");
-
-        //initialize Good Receipt Items
-        Commodity[] commArray = commodityRepo.findAll().toArray(new Commodity[0]);
-
-        int counter = 1;
-        for (Commodity comm : commArray) {
-            GoodReceiptItem item = new GoodReceiptItem();
-            item.setCommodity(commArray[0]);
-            item.setAmount(40);
-            item.setPosition(counter++);
-            goodReceiptItemRepo.save(item);
+        for (int i = 0; i < 3; i++) {
+            GoodsReceipt goodsReceipt = FakeData.createGoodsReceipt(supplierRepo.findAll(), commodityRepo.findAll());
+            goodsReceiptRepo.save(goodsReceipt);
         }
-
-        List<GoodReceiptItem> itemList = goodReceiptItemRepo.findAll();
-        for (GoodReceiptItem item : itemList) {
-            goodReceipt1.addItem(item);
-        }
-        goodReceiptRepo.save(goodReceipt1);
 
 
         //wydruki
-        List<Customer> customers = clientRepo.findAll();
+        List<Customer> customers = customerRepo.findAll();
         List<Supplier> suppliers = supplierRepo.findAll();
         List<Commodity> commodities = commodityRepo.findAll();
-        List<GoodReceipt> goodReceiptList = goodReceiptRepo.findAll();
+        List<GoodsReceipt> goodsReceiptList = goodsReceiptRepo.findAll();
+
 
         System.out.println(customers);
         System.out.println(suppliers);
         System.out.println(commodities);
-        System.out.println(itemList);
-        System.out.println(goodReceiptList);
-        System.out.println(goodReceiptList.get(0).getNumberOfItems());
-
+        System.out.println(goodsReceiptList);
     }
 
 }
