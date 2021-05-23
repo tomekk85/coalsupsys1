@@ -19,14 +19,16 @@ public class BootStrapData implements CommandLineRunner {
     private CommodityRepository commodityRepo;
     private GoodsReceiptRepository goodsReceiptRepo;
     private DeliveryNoteRepository deliveryNoteRepo;
+    //private WarehouseRepository warehouseRepo;
 
     public BootStrapData(CustomerRepository clientRepo, SupplierRepository supplierRepo, CommodityRepository commodityRepo,
-                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo) {
+                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo/*, WarehouseRepository warehouseRepo*/) {
         this.customerRepo = clientRepo;
         this.supplierRepo = supplierRepo;
         this.commodityRepo = commodityRepo;
         this.goodsReceiptRepo = goodsReceiptRepo;
         this.deliveryNoteRepo = deliveryNoteRepo;
+        //this.warehouseRepo = warehouseRepo;
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @MappedSuperclass
-@Table(name = "document")
 @Data
 public abstract class Document {
     Document(){
@@ -18,15 +17,11 @@ public abstract class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
-
-
     private int currentPositionNumber;
     LocalDate dateOfIssue;
     String issuer;//osoba wystawiająca
 
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
     Map<Integer,Item> items = new HashMap<>();
 
     public void addItem(Commodity commodity, Double amount){
@@ -42,7 +37,6 @@ public abstract class Document {
 
 
     @Entity
-    @Table(name = "item")
     @Data
     public static class Item {
         @Id
