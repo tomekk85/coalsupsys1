@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import pl.coalgroup.coalsupsys.model.*;
 import pl.coalgroup.coalsupsys.repositories.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,21 +13,25 @@ import java.util.List;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
-    private CustomerRepository customerRepo;
-    private SupplierRepository supplierRepo;
-    private CommodityRepository commodityRepo;
-    private GoodsReceiptRepository goodsReceiptRepo;
-    private DeliveryNoteRepository deliveryNoteRepo;
-    private WarehouseRepository warehouseRepo;
+    private final CustomerRepository customerRepo;
+    private final SupplierRepository supplierRepo;
+    private final CommodityRepository commodityRepo;
+    private final GoodsReceiptRepository goodsReceiptRepo;
+    private final GRRegisterRepository grRegisterRepo;
+    private final DeliveryNoteRepository deliveryNoteRepo;
+    private final DNRegisterRepository dnRegisterRepo;
+    private final StockRepository stockRepo;
 
     public BootStrapData(CustomerRepository clientRepo, SupplierRepository supplierRepo, CommodityRepository commodityRepo,
-                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo,WarehouseRepository warehouseRepo) {
+                         GoodsReceiptRepository goodsReceiptRepo, GRRegisterRepository grRegisterRepo, DeliveryNoteRepository deliveryNoteRepo, DNRegisterRepository dnRegisterRepo, StockRepository stockRepo) {
         this.customerRepo = clientRepo;
         this.supplierRepo = supplierRepo;
         this.commodityRepo = commodityRepo;
         this.goodsReceiptRepo = goodsReceiptRepo;
+        this.grRegisterRepo = grRegisterRepo;
         this.deliveryNoteRepo = deliveryNoteRepo;
-        this.warehouseRepo = warehouseRepo;
+        this.dnRegisterRepo = dnRegisterRepo;
+        this.stockRepo = stockRepo;
     }
 
     @Override
@@ -58,15 +61,45 @@ public class BootStrapData implements CommandLineRunner {
         }
 
         //initialize Good Receipts
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 225; i++) {
             GoodsReceipt goodsReceipt = FakeData.createGoodsReceipt(supplierRepo.findAll(), commodityRepo.findAll());
+
+            //Stock
+            for (GoodsReceipt.Item item: goodsReceipt.getItems()){
+                Stock stock = new Stock();
+                stock.setCommodity(item.getCommodity());
+                stock.setAmount(item.getAmount());
+
+                List<Stock> list = stockRepo.findAll();
+
+                for(Stock element : list){
+                    if(stock.getCommodity().equals(element.getCommodity())){
+                        stock.setId(element.getId());
+                        stock.setAmount(stock.getAmount()+ element.getAmount());
+                        break;
+                    }
+                }
+                stockRepo.save(stock);
+            }
+
+            //Goods Receipt Register
+            GoodsReceiptRegister register = new GoodsReceiptRegister();
+            register.setGoodsReceipt(goodsReceipt);
+
             goodsReceiptRepo.save(goodsReceipt);
+
+            grRegisterRepo.save(register);
+
         }
 
         //initialize Delivery Notes
         for (int i = 0; i < 3; i++) {
             DeliveryNote deliveryNote = FakeData.createDeliveryNote(customerRepo.findAll(), commodityRepo.findAll());
             deliveryNoteRepo.save(deliveryNote);
+            DeliveryNoteRegister register = new DeliveryNoteRegister();
+            register.setDeliveryNote(deliveryNote);
+
+            dnRegisterRepo.save(register);
         }
 
         //Lists
@@ -76,20 +109,15 @@ public class BootStrapData implements CommandLineRunner {
         List<GoodsReceipt> goodsReceiptList = goodsReceiptRepo.findAll();
         List<DeliveryNote> deliveryNoteList = deliveryNoteRepo.findAll();
 
-        //initialize Warehouse
-        Warehouse warehouse = new Warehouse();
-        for (GoodsReceipt goodsReceipt: goodsReceiptList){
-            warehouse.addToStock(goodsReceipt);
-        }
-        warehouseRepo.save(warehouse);
+        List<Stock> stockList = stockRepo.findAll();
 
         //print outs
-        System.out.println(customers);
-        System.out.println(suppliers);
-        System.out.println(commodities);
-        System.out.println(goodsReceiptList);
-        System.out.println(deliveryNoteList);
-        System.out.println(warehouse);
+//        System.out.println(customers);
+//        System.out.println(suppliers);
+//        System.out.println(commodities);
+//        System.out.println(goodsReceiptList);
+//        System.out.println(deliveryNoteList);
+//        System.out.println(stockList);
     }
 
 }

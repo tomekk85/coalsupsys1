@@ -104,9 +104,9 @@ public class FakeData {
 
     public static GoodsReceipt createGoodsReceipt(List<Supplier> suppliers, List<Commodity> commodities){
         int startSupp = 0;
-        int endSupp = suppliers.size();
+        int endSupp = suppliers.size() + 1;
         int startComm = 0;
-        int endComm = commodities.size();
+        int endComm = commodities.size() + 1;
 
         GoodsReceipt goodsReceipt = new GoodsReceipt();
         goodsReceipt.setDateOfIssue(LocalDate.now());
@@ -124,9 +124,9 @@ public class FakeData {
 
     public static DeliveryNote createDeliveryNote(List<Customer> customers, List<Commodity> commodities){
         int startCust = 0;
-        int endCust = customers.size();
+        int endCust = customers.size() + 1;
         int startComm = 0;
-        int endComm = commodities.size();
+        int endComm = commodities.size() + 1;
 
         DeliveryNote deliveryNote = new DeliveryNote();
         deliveryNote.setDateOfIssue(LocalDate.now());

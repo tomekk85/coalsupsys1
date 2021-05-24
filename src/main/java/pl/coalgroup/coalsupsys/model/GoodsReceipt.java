@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 public class GoodsReceipt extends Document{
 
     @OneToOne
-    Supplier supplier;
+    private Supplier supplier;
 
     @Override
     public String toString() {

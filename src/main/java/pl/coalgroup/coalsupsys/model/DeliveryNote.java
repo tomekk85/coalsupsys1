@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 @Data
 public class DeliveryNote extends Document{
     @OneToOne
-    Customer customer;
+    private Customer customer;
 
     @Override
     public String toString() {
