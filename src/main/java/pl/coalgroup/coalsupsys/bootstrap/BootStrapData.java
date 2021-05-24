@@ -19,16 +19,16 @@ public class BootStrapData implements CommandLineRunner {
     private CommodityRepository commodityRepo;
     private GoodsReceiptRepository goodsReceiptRepo;
     private DeliveryNoteRepository deliveryNoteRepo;
-    //private WarehouseRepository warehouseRepo;
+    private WarehouseRepository warehouseRepo;
 
     public BootStrapData(CustomerRepository clientRepo, SupplierRepository supplierRepo, CommodityRepository commodityRepo,
-                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo/*, WarehouseRepository warehouseRepo*/) {
+                         GoodsReceiptRepository goodsReceiptRepo, DeliveryNoteRepository deliveryNoteRepo,WarehouseRepository warehouseRepo) {
         this.customerRepo = clientRepo;
         this.supplierRepo = supplierRepo;
         this.commodityRepo = commodityRepo;
         this.goodsReceiptRepo = goodsReceiptRepo;
         this.deliveryNoteRepo = deliveryNoteRepo;
-        //this.warehouseRepo = warehouseRepo;
+        this.warehouseRepo = warehouseRepo;
     }
 
     @Override
@@ -69,18 +69,27 @@ public class BootStrapData implements CommandLineRunner {
             deliveryNoteRepo.save(deliveryNote);
         }
 
-        //wydruki
+        //Lists
         List<Customer> customers = customerRepo.findAll();
         List<Supplier> suppliers = supplierRepo.findAll();
         List<Commodity> commodities = commodityRepo.findAll();
         List<GoodsReceipt> goodsReceiptList = goodsReceiptRepo.findAll();
         List<DeliveryNote> deliveryNoteList = deliveryNoteRepo.findAll();
 
+        //initialize Warehouse
+        Warehouse warehouse = new Warehouse();
+        for (GoodsReceipt goodsReceipt: goodsReceiptList){
+            warehouse.addToStock(goodsReceipt);
+        }
+        warehouseRepo.save(warehouse);
+
+        //print outs
         System.out.println(customers);
         System.out.println(suppliers);
         System.out.println(commodities);
         System.out.println(goodsReceiptList);
         System.out.println(deliveryNoteList);
+        System.out.println(warehouse);
     }
 
 }

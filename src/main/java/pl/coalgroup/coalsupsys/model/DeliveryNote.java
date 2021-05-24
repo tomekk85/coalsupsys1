@@ -21,4 +21,5 @@ public class DeliveryNote extends Document{
                 ", items=" + items +
                 '}';
     }
+
 }
