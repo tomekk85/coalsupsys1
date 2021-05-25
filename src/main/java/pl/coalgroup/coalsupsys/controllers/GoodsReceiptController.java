@@ -9,6 +9,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(GoodsReceiptController.BASE_URL)
+@CrossOrigin("localhost:4200")
+
 public class GoodsReceiptController {
     public static final String BASE_URL = "api/v1/goods_receipt";
     private final GoodsReceiptService goodsReceiptService;

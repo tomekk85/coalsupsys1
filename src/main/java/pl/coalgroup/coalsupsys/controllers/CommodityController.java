@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(CommodityController.BASE_URL)
+@CrossOrigin("localhost:4200")
 
 public class CommodityController {
     public static final String BASE_URL = "api/v1/commodities";
