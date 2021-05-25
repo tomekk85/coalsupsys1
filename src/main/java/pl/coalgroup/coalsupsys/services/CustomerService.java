@@ -2,7 +2,6 @@ package pl.coalgroup.coalsupsys.services;
 
 import org.springframework.stereotype.Service;
 import pl.coalgroup.coalsupsys.model.Customer;
-import pl.coalgroup.coalsupsys.model.Supplier;
 import pl.coalgroup.coalsupsys.repositories.CustomerRepository;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class CustomerService implements ServiceInterface {
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;

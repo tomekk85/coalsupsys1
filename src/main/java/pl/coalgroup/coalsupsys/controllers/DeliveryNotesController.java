@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping(DeliveryNotesController.BASE_URL)
 public class DeliveryNotesController {
     public static final String BASE_URL = "api/v1/delivery_notes";
-    private DeliveryNoteService deliveryNoteService;
+    private final DeliveryNoteService deliveryNoteService;
 
     public DeliveryNotesController(DeliveryNoteService deliveryNoteService) {
         this.deliveryNoteService = deliveryNoteService;

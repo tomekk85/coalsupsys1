@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SupplierController {
     public static final String BASE_URL = "api/v1/suppliers";
-    private SupplierService supplierService;
+    private final SupplierService supplierService;
 
     public SupplierController(SupplierService supplierService) {
         this.supplierService = supplierService;

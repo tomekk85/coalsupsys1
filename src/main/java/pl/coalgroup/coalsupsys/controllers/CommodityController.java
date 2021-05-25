@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CommodityController {
     public static final String BASE_URL = "api/v1/commodities";
-    private CommodityService commodityService;
+    private final CommodityService commodityService;
 
     public CommodityController(CommodityService commodityService) {
         this.commodityService = commodityService;

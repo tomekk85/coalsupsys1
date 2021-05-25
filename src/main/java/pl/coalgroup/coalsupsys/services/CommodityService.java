@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class CommodityService implements ServiceInterface {
-    CommodityRepository commodityRepository;
+    private final CommodityRepository commodityRepository;
 
     public CommodityService(CommodityRepository commodityRepository) {
         this.commodityRepository = commodityRepository;

@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping(GoodsReceiptController.BASE_URL)
 public class GoodsReceiptController {
     public static final String BASE_URL = "api/v1/goods_receipt";
-    private GoodsReceiptService goodsReceiptService;
+    private final GoodsReceiptService goodsReceiptService;
 
     public GoodsReceiptController(GoodsReceiptService goodsReceiptService) {
         this.goodsReceiptService = goodsReceiptService;

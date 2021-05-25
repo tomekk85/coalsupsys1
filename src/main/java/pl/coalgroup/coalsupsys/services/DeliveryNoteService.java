@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class DeliveryNoteService implements ServiceInterface{
-    DeliveryNoteRepository deliveryNoteRepository;
+    private final DeliveryNoteRepository deliveryNoteRepository;
 
     public DeliveryNoteService(DeliveryNoteRepository deliveryNoteRepository) {
         this.deliveryNoteRepository = deliveryNoteRepository;

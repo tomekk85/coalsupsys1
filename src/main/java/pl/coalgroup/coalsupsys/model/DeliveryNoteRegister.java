@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 public class DeliveryNoteRegister {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @OneToOne

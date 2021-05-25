@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class SupplierService implements ServiceInterface{
-    SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
 
     public SupplierService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
