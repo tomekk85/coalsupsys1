@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(SupplierController.BASE_URL)
-@CrossOrigin("localhost:4200")
+@CrossOrigin("http://localhost:4200")
 
 public class SupplierController {
     public static final String BASE_URL = "api/v1/suppliers";

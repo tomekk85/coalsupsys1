@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(StockController.BASE_URL)
-@CrossOrigin("localhost:4200")
+@CrossOrigin("http://localhost:4200")
 
 public class StockController {
     public static final String BASE_URL = "api/v1/stock";

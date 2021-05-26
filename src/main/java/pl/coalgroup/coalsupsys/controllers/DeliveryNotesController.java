@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(DeliveryNotesController.BASE_URL)
-@CrossOrigin("localhost:4200")
+@CrossOrigin("http://localhost:4200")
 
 public class DeliveryNotesController {
     public static final String BASE_URL = "api/v1/delivery_notes";
